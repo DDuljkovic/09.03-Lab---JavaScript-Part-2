@@ -3,9 +3,31 @@
 function sayHello() {
     alert("Hello, world from javascript!");
 }
-// This function will be called when the link is clicked
-// It shows an alert with a message
-// Ensure the DOM is fully loaded before attaching the event listener
+
+// Function to check if a password is strong
+function isStrongPassword(password) {
+    // Check for minimum length
+    if (password.length < 8) {
+        return false;
+    }
+    // Check that it does not contain the word "password"
+    if (password.toLowerCase().includes("password")) {
+        return false;
+    }
+    // Check for at least one uppercase character
+    if (!/[A-Z]/.test(password)) {
+        return false;
+    }
+    return true;
+}
+
+// Example calls (you can test these in the console)
+console.log(isStrongPassword("Qwerty"));         // false - Too short
+console.log(isStrongPassword("passwordQwerty")); // false - Contains "password"
+console.log(isStrongPassword("qwerty123"));      // false - No uppercase characters
+console.log(isStrongPassword("Qwerty123"));      // true
+
+// Ensure the DOM is fully loaded before attaching event listeners
 document.addEventListener("DOMContentLoaded", function() {
     const link = document.getElementById("hello-link");
     if (!link) {
@@ -20,9 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 async function getRandomJoke() {
     return fetch('https://icanhazdadjoke.com/', {
-        headers: {
-            'Accept': 'text/plain'
-        }
+        headers: { 'Accept': 'text/plain' }
     })
     .then(response => {
         if (!response.ok) {
@@ -43,14 +63,66 @@ document.addEventListener("DOMContentLoaded", function() {
         return;
     }
     jokeButton.addEventListener("click", async function() {
-
-            const jokeDisplay = document.getElementById("joke-display");
-            if (!jokeDisplay) {
-                console.error("Element with ID 'joke-display' not found.");
-                return;
-            }
-            jokeDisplay.textContent = "Loading joke...";
-            const joke = await getRandomJoke();
-            jokeDisplay.textContent = joke;
+        const jokeDisplay = document.getElementById("joke-display");
+        if (!jokeDisplay) {
+            console.error("Element with ID 'joke-display' not found.");
+            return;
+        }
+        jokeDisplay.textContent = "Loading joke...";
+        const joke = await getRandomJoke();
+        jokeDisplay.textContent = joke;
     });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("login-form");
+  if (!form) return;
+
+  const pwInput = document.getElementById("password");
+  const msg = document.getElementById("pw-msg");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const pwd = pwInput.value || "";
+    if (isStrongPassword(pwd)) {
+      msg.textContent = "Password strength looks good. (Demo login)";
+      msg.className = "pw-msg ok";
+      // Demo: pretend to log in
+      setTimeout(() => alert("Logged in (demo)"), 50);
+    } else {
+      msg.textContent =
+        'Password must be 8+ chars, include an uppercase letter, and not contain "password".';
+      msg.className = "pw-msg error";
+    }
+  });
+});
+
+// Helper function to check password strength and alert user
+function checkPasswordStrengthFromInput() {
+    const pwInput = document.getElementById("password");
+    if (!pwInput) {
+        alert("Password field not found.");
+        return;
+    }
+
+    const password = pwInput.value.trim();
+    if (password === "") {
+        alert("Please enter a password first.");
+        return;
+    }
+
+    if (isStrongPassword(password)) {
+        alert("Password is strong");
+    } else {
+        alert("Password is weak");
+    }
+}
+
+// Attach to button
+document.addEventListener("DOMContentLoaded", function() {
+    const checkButton = document.getElementById("check-password-button");
+    if (checkButton) {
+        checkButton.addEventListener("click", checkPasswordStrengthFromInput);
+    }
 });

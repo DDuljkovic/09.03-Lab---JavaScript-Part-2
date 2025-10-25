@@ -1,25 +1,42 @@
 <!doctype html>
 <html>
-
 <head>
   <meta charset="utf-8">
   <title>CS208 - Starter Code (UPDATE ME)!</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FIX: point to the actual CSS filename -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- FIX: load the JS so Task 3 button works -->
+  <script src="script.js" defer></script>
 </head>
 
 <body>
-  <h1>HTML Rocks!!</h1>
-  <ul>
-  <li><a href="/hello">Click here to say hello</a></li>
-  <li><button id="hello-link">Click Me!</button></li>
-  <li><button id="joke-button">Dad Joke!</button></li>
-  <script src="script.js"></script>
-  </ul>
-  <img src="funny.png" alt="Funny Image" width="300" height="200">
+  <!-- Login card (Task 2) -->
+  <section class="login-wrap">
+    <div class="login-card">
+      <h2 class="login-title">Login to Account</h2>
 
-  <h2 id="joke-display"></h2>
+      <form id="login-form" novalidate>
+        <label class="visually-hidden" for="username">Username / Email</label>
+        <input id="username" name="username" type="text" placeholder="Username / Email" required>
+
+        <label class="visually-hidden" for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="Password" required>
+
+        <button type="submit" class="btn-primary">Login</button>
+        <p id="pw-msg" class="pw-msg" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Task 3 demo button -->
+  <div style="display:grid;place-items:center;margin: 0 0 60px;">
+    <button id="check-password-button" class="btn-primary" style="width:min(92vw,420px);">
+      Check Password Strength
+    </button>
+  </div>
 </body>
-
 </html>
